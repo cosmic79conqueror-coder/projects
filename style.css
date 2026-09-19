@@ -1,0 +1,4 @@
+body{font-family:sans-serif;background:#111;color:#fff;margin:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+.game{background:#222;padding:12px;border-radius:6px}
+iframe{width:100%;aspect-ratio:16/9;border:none}
