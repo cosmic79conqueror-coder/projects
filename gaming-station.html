@@ -23,5 +23,21 @@
   <div class="game"><h2>Slither.io</h2><iframe src="https://slither.io" title="Slither.io"></iframe></div>
   <div class="game"><h2>Subway Surfers</h2><iframe src="https://szhong.4399.com/4399swf//upload_swf/ftp35/liuxinyu/20210324/jj01/index.html" title="Subway Surfers"></iframe></div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const games = document.querySelectorAll('.game');
+  games.forEach(g => {
+    g.addEventListener('click', () => {
+      const iframe = g.querySelector('iframe');
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        iframe.requestFullscreen().catch(() => {});
+      }
+    });
+  });
+});
+</script>
 </body>
 </html>
