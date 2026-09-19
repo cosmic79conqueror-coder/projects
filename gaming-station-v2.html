@@ -6,9 +6,9 @@
 <style>
   body { font-family: Arial, sans-serif; background:#111; color:#fff; margin:0; padding:20px; }
   h1 { text-align:center; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(250px,1fr)); gap:20px; }
-  .game { background:#222; padding:15px; border-radius:8px; }
-  iframe { width:100%; height:300px; border:none; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:15px; }
+  .game { background:#222; padding:12px; border-radius:6px; position:relative; }
+  iframe { width:100%; aspect-ratio:16/9; border:none; display:block; }
 </style>
 </head>
 <body>
@@ -26,16 +26,51 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const games = document.querySelectorAll('.game');
-  games.forEach(g => {
+  const gameDivs = document.querySelectorAll('.game');
+  let activeIndex = null;
+
+  gameDivs.forEach((g, i) => {
     g.addEventListener('click', () => {
+      // Reset ALL games to normal size
+      gameDivs.forEach((g2, idx) => {
+        g2.style.zIndex = '1';
+        g2.querySelector('iframe').style.width = '100%';
+        g2.querySelector('iframe').style.height = '300px';
+        g2.querySelector('iframe').style.position = '';
+        g2.querySelector('iframe').style.top = '';
+        g2.querySelector('iframe').style.left = '';
+      });
+
+      // Activate the clicked game → full‑screen
       const iframe = g.querySelector('iframe');
+      iframe.style.width = '100vw';
+      iframe.style.height = '100vh';
+      iframe.style.position = 'fixed';
+      iframe.style.top = '0';
+      iframe.style.left = '0';
+      iframe.style.border = 'none';
+      g.style.zIndex = '10';
+
+      activeIndex = i;
+    });
+  });
+
+  // Escape key returns to grid
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
       if (document.fullscreenElement) {
         document.exitFullscreen();
-      } else {
-        iframe.requestFullscreen().catch(() => {});
       }
-    });
+      gameDivs.forEach((g, i) => {
+        g.style.zIndex = '1';
+        g.querySelector('iframe').style.width = '100%';
+        g.querySelector('iframe').style.height = '300px';
+        g.querySelector('iframe').style.position = '';
+        g.querySelector('iframe').style.top = '';
+        g.querySelector('iframe').style.left = '';
+      });
+      activeIndex = null;
+    }
   });
 });
 </script>
